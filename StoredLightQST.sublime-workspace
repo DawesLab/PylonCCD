@@ -11,7 +11,7 @@
 			"file": "ExcelonCamera.py",
 			"settings":
 			{
-				"buffer_size": 1114,
+				"buffer_size": 1119,
 				"line_ending": "Unix"
 			}
 		},
@@ -92,7 +92,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -100,15 +100,15 @@
 					"file": "ExcelonCamera.py",
 					"settings":
 					{
-						"buffer_size": 1114,
+						"buffer_size": 1119,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1108,
+								1108
 							]
 						],
 						"settings":
