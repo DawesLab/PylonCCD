@@ -3,7 +3,8 @@
 from pylab import *
 from scipy import *
 import BeamOptics as bopt
-from numpy import random
+from numpy import random, real, imag
+import Qfunction as qf
 
 NX = 1340
 NY = 400
@@ -19,30 +20,38 @@ ymax = (NY/2)*pitch
 x,y = ogrid[xmin:xmax:pitch, ymin:ymax:pitch]
 
 k = 2*pi/780e-9
-theta = 0.0005 #radian measure of beam angle
+theta = 0.005 #radian measure of beam angle
 k1 = [0,0,k]
 k2 = [k*sin(theta),0,k*cos(theta)]
 pos = array([x,y])
-amp = 1.0
+amp = 10.0
 
 # gaussian_beam(x,y,z,E0,z0,w0,k)
 #total = bopt.gaussian_beam(x,y,0,1.0,0.01,0.005,k2) + bopt.gaussian_beam(x,y,0,0.0,0.01,0.005,k2)
 #total = bopt.gaussian_beam(x,y,0,10,0.02,0.005,k2) 
 #total = bopt.plane_wave_beam(x,y,0,amp,k2) + bopt.plane_wave_beam(x,y,0,0.1,k1)
-total = bopt.plane_wave_beam(x,y,0,amp,k2) 
-intensity = total * total.conjugate()
+values = []
+for i in range(200):
+	print i
+	total = bopt.plane_wave_beam(x,y,0,amp,k1) + bopt.plane_wave_beam(x,y,0,1e-6,k2) 
+	intensity = total * total.conjugate()
+	K = fftshift(fft2(intensity)) # complex intensity after FFT2
+	values.append(K[842,200]/1e3)
 
-f=figure()
-subplot(1,3,1)
-imshow(abs(intensity))
+# pixel of interest in FFT is 842
 
-subplot(1,3,2)
-kplot = imshow(log(fftshift(abs(fft2(intensity)))))
-kplot.set_interpolation('nearest')
+# f=figure()
+# subplot(1,3,1)
+# imshow(abs(intensity))
 
-subplot(1,3,3)
-newx = arange(NX)
-plot(log(abs(fftshift(fft2(intensity))))[:,200],newx,".",ms=3)
+# subplot(1,3,2)
+# kplot = imshow(log(fftshift(abs(fft2(intensity)))))
+# kplot.set_interpolation('nearest')
+
+# subplot(1,3,3)
+# newx = arange(NX)
+# plot(log(abs(fftshift(fft2(intensity))))[:,200],newx,".",ms=3)
+# show()
+
+qfuncoutput = qf.qfuncimage(real(values),imag(values),10)
 show()
-
-
