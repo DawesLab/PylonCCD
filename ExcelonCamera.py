@@ -31,7 +31,7 @@ amp = 10.0
 #total = bopt.gaussian_beam(x,y,0,10,0.02,0.005,k2) 
 #total = bopt.plane_wave_beam(x,y,0,amp,k2) + bopt.plane_wave_beam(x,y,0,0.1,k1)
 values = []
-for i in range(200):
+for i in range(5000):
 	print i
 	total = bopt.plane_wave_beam(x,y,0,amp,k1) + bopt.plane_wave_beam(x,y,0,1e-6,k2) 
 	intensity = total * total.conjugate()
