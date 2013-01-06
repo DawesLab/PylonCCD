@@ -32,12 +32,13 @@ def gaussian_beam (x, y, z, E0, z0, w0, k):
     # compared to the BPM. I need to sort this out for sure. The following agrees with BPM:
     # return w0/w * exp(- r*r/(w*w)) * exp(- 1j*k*r*r/(2*R) + 1j*eta)
 
-def plane_wave_beam (x, y, z, E0, k):
+def plane_wave_beam (x, y, z, A, k):
     """a simple plane wave mostly used for testing"""
-    #return E0*exp(I*k[2]*z)*exp(I*k[0]*x + I*k[1]*y) + sqrt(E0)*random.random([max(shape(x)),max(shape(y))])
-    #return (E0 + 0.05*sqrt(E0)*(random.random([max(shape(x)),max(shape(y))]) - 0.5)) * exp(I*k[0]*x + I*k[1]*y + I*k[2]*z)
-    #return E0*exp(I*k[0]*x + I*k[1]*y + I*k[2]*z)
-    return E0 * sqrt(E0)*(random.random() - 0.5) * exp(I*k[0]*x + I*k[1]*y + I*k[2]*z) 
+    #dphase = 1/(2*A**2)
+    #noiseamp = sqrt(A) * (random.random() - 0.5)
+    #noisephase = exp(2*pi*1j*dphase*(random.random() - 0.5))
+    noise = random.normal(0,0.5) * exp(1j*2*pi*random.random())
+    return A * exp(I*k[0]*x + I*k[1]*y + I*k[2]*z) + noise
     # this is more accurate, the best way to model is to let the amplitude have noise.
 
 
