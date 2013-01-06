@@ -11,10 +11,12 @@ def qfunc3d(x,y,bins=4):
 	elements = (len(xedges) - 1) * (len(yedges) - 1)
 	xpos, ypos = np.meshgrid(xedges[:-1]+0.25, yedges[:-1]+0.25)
 
+	barsize = xedges[1] - xedges[0]
+
 	xpos = xpos.flatten()
 	ypos = ypos.flatten()
 	zpos = np.zeros(elements)
-	dx = 0.5 * np.ones_like(zpos)
+	dx = barsize * np.ones_like(zpos)
 	dy = dx.copy()
 	dz = hist.flatten()
 
@@ -24,7 +26,8 @@ def qfunc3d(x,y,bins=4):
 
 def qfuncimage(x,y,bins=10):
 	H, xe, ye = np.histogram2d(x,y,bins)
-	extent = [ye[0], ye[-1], xe[-1], xe[0]]
+	extent = [xe[0], xe[-1], ye[-1], ye[0]]
+	print extent
 	fig = plt.figure()
 	plt.imshow(H, extent=extent, interpolation='nearest')
 	return fig

@@ -34,9 +34,11 @@ def gaussian_beam (x, y, z, E0, z0, w0, k):
 
 def plane_wave_beam (x, y, z, E0, k):
     """a simple plane wave mostly used for testing"""
-#   return E0*exp(I*k[2]*z)*exp(I*k[0]*x + I*k[1]*y) + sqrt(E0)*random.random([max(shape(x)),max(shape(y))])
-    return (E0 + 0.05*sqrt(E0)*(random.random([max(shape(x)),max(shape(y))]) - 0.5)) * exp(I*k[0]*x + I*k[1]*y + I*k[2]*z)
-#    return E0*exp(I*k[0]*x + I*k[1]*y + I*k[2]*z)
+    #return E0*exp(I*k[2]*z)*exp(I*k[0]*x + I*k[1]*y) + sqrt(E0)*random.random([max(shape(x)),max(shape(y))])
+    #return (E0 + 0.05*sqrt(E0)*(random.random([max(shape(x)),max(shape(y))]) - 0.5)) * exp(I*k[0]*x + I*k[1]*y + I*k[2]*z)
+    #return E0*exp(I*k[0]*x + I*k[1]*y + I*k[2]*z)
+    return E0 * sqrt(E0)*(random.random() - 0.5) * exp(I*k[0]*x + I*k[1]*y + I*k[2]*z) 
+    # this is more accurate, the best way to model is to let the amplitude have noise.
 
 
     

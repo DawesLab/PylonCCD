@@ -26,15 +26,18 @@ k2 = [k*sin(theta),0,k*cos(theta)]
 pos = array([x,y])
 amp = 10.0
 
+darkcts = 0.001 # no idea what is reasonable here, just tinkering
+# seems best way to model detector is with partial loss (2%) and added noise (dark counts)
+
 # gaussian_beam(x,y,z,E0,z0,w0,k)
 #total = bopt.gaussian_beam(x,y,0,1.0,0.01,0.005,k2) + bopt.gaussian_beam(x,y,0,0.0,0.01,0.005,k2)
 #total = bopt.gaussian_beam(x,y,0,10,0.02,0.005,k2) 
 #total = bopt.plane_wave_beam(x,y,0,amp,k2) + bopt.plane_wave_beam(x,y,0,0.1,k1)
 values = []
-for i in range(5000):
+for i in range(1000):
 	print i
-	total = bopt.plane_wave_beam(x,y,0,amp,k1) + bopt.plane_wave_beam(x,y,0,1e-6,k2) 
-	intensity = total * total.conjugate()
+	total = bopt.plane_wave_beam(x,y,0,amp,k1) + bopt.plane_wave_beam(x,y,0,1e-5,k2) 
+	intensity = total * total.conjugate() + darkcts*random.random([max(shape(x)),max(shape(y))]) # add dark noise and QE
 	K = fftshift(fft2(intensity)) # complex intensity after FFT2
 	values.append(K[842,200]/1e3)
 
