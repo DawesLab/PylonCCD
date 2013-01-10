@@ -30,12 +30,12 @@ darkcts = 0.0 # no idea what is reasonable here, just tinkering
 # seems best way to model detector is with partial loss (2%) and added noise (dark counts)
 
 values = []
-for i in range(300): #this is the loop to parallelize
+for i in range(1000): #this is the loop to parallelize
 	print i
-	total = bopt.plane_wave_beam(x,y,0,amp,k1) + bopt.plane_wave_beam(x,y,0,0.0001*amp,k2) 
+	total = bopt.plane_wave_beam(x,y,0,amp,k1) + bopt.plane_wave_beam(x,y,0,0.01*amp,k2) 
 	intensity = total * total.conjugate() + darkcts*(random.random([max(shape(x)),max(shape(y))]) + 1j*random.random([max(shape(x)),max(shape(y))])) # add dark noise and QE
 	K = fftshift(fft2(intensity)) # complex intensity after FFT2
-	values.append(K[842,200])
+	values.append(K[842,200]/1e8)
 
 # pixel of interest in FFT is 842
 
