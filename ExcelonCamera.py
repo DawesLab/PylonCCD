@@ -24,7 +24,7 @@ theta = 0.005 #radian measure of beam angle
 k1 = [0,0,k]
 k2 = [k*sin(theta),0,k*cos(theta)]
 pos = array([x,y])
-amp = 10.0
+amp = 380
 
 darkcts = 0.0 # no idea what is reasonable here, just tinkering
 # seems best way to model detector is with partial loss (2%) and added noise (dark counts)
@@ -39,5 +39,5 @@ for i in range(300): #this is the loop to parallelize
 
 # pixel of interest in FFT is 842
 
-qfuncoutput = qf.qfuncimage(real(values),imag(values),20)
+qfuncoutput = qf.qfuncimage(real(values),imag(values),30)
 show()
