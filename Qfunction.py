@@ -20,7 +20,7 @@ def qfunc3d(x,y,bins=4):
 	dy = dx.copy()
 	dz = hist.flatten()
 
-	ax.bar3d(xpos, ypos, zpos, dx, dy, dz, color='b', alpha=0.5, zsort='average')
+	ax.bar3d(xpos, ypos, zpos, dx, dy, dz, color='b', zsort='average')
 
 	return fig
 
@@ -29,5 +29,6 @@ def qfuncimage(x,y,bins=10):
 	extent = [xe[0], xe[-1], ye[-1], ye[0]]
 	print extent
 	fig = plt.figure()
-	plt.imshow(H, extent=extent, interpolation='nearest')
+	plt.imshow(H, extent=extent, interpolation='nearest', cmap='gray')
+	plt.colorbar()
 	return fig
