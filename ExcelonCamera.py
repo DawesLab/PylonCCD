@@ -32,13 +32,17 @@ darkcts = 0.0 # no idea what is reasonable here, just tinkering
 values = []
 for i in range(5000): #this is the loop to parallelize
 	print i
-	total = bopt.plane_wave_beam(x,y,0,amp,k1) + bopt.plane_wave_beam(x,y,0,0.01*amp,k2) 
+	total = bopt.plane_wave_beam(x,y,0,amp,k1) + exp(1j*1)*bopt.plane_wave_beam(x,y,0,0.01*amp,k2) 
 
 	intensity = total * total.conjugate() #+ darkcts*(random.random([max(shape(x)),max(shape(y))]) + 1j*random.random([max(shape(x)),max(shape(y))])) # add dark noise and QE
 	K = fftshift(fft(intensity[:,200])) # complex intensity after FFT2
 	values.append(K[643]/1e5)
 
-# pixel of interest in FFT is 643
+# pixel of interest in FFT is 643 (this is 131 pixels away from the center @ 512)
+# 131 pixels corresponds to the off-axis component of the wave:
+# ∆K is 2π / (20e-6 * 1024) = 306.796 rad/m
+# 306.796 * 131 is 40190 rad/m which is k * sin(0.005) where k = 2π/780e-9 = 8055365 rad/m
+# TADA!
 
 qfuncoutput = qf.qfuncimage(real(values),imag(values),30)
 show()
