@@ -11,7 +11,7 @@
 			"file": "ExcelonCamera.py",
 			"settings":
 			{
-				"buffer_size": 1119,
+				"buffer_size": 1725,
 				"line_ending": "Unix"
 			}
 		},
@@ -19,7 +19,15 @@
 			"file": "BeamOptics.py",
 			"settings":
 			{
-				"buffer_size": 1260,
+				"buffer_size": 1707,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Qfunction.py",
+			"settings":
+			{
+				"buffer_size": 900,
 				"line_ending": "Unix"
 			}
 		}
@@ -27,7 +35,7 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 187.0,
+		"height": 67.0,
 		"selected_items":
 		[
 			[
@@ -35,7 +43,7 @@
 				":w - Save"
 			]
 		],
-		"width": 392.0
+		"width": 449.0
 	},
 	"console":
 	{
@@ -52,6 +60,7 @@
 	},
 	"file_history":
 	[
+		"/Users/dawes/Google Drive/Research/DawesLab/Tutorials/Quantum Optics Intro.tex",
 		"/Users/dawes/Dropbox/332 Waves/Labs/Maple Wave Math/lab1.tex",
 		"/private/var/folders/y4/264nypxs69b3sn5y6z2kz9000000gq/T/91ee8671-f3d6-40bf-8c2a-9839c9a348b0/bio.html",
 		"/Users/dawes/Dropbox/code/python/StoredLightQST.sublime-project",
@@ -100,15 +109,15 @@
 					"file": "ExcelonCamera.py",
 					"settings":
 					{
-						"buffer_size": 1119,
+						"buffer_size": 1725,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1108,
-								1108
+								1089,
+								1089
 							]
 						],
 						"settings":
@@ -116,7 +125,7 @@
 							"syntax": "Packages/Python/Python.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 443.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -126,15 +135,15 @@
 					"file": "BeamOptics.py",
 					"settings":
 					{
-						"buffer_size": 1260,
+						"buffer_size": 1707,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1701,
+								1701
 							]
 						],
 						"settings":
@@ -142,6 +151,33 @@
 							"syntax": "Packages/Python/Python.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 377.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Qfunction.py",
+					"settings":
+					{
+						"buffer_size": 900,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								869,
+								869
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -183,6 +219,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 142.0
+	},
 	"replace":
 	{
 		"height": 0.0
