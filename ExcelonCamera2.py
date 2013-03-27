@@ -5,6 +5,7 @@ from scipy import *
 import BeamOptics as bopt
 from numpy import random, real, imag
 import Qfunction as qf
+import pyfftw
 
 NX = 1024 #select an FFT-friendly subset of the array
 NY = 400
@@ -31,13 +32,20 @@ darkcts = 0.0 # no idea what is reasonable here, just tinkering
 
 # seems best way to model (classical) detector is with partial loss (2%) and added noise (dark counts)
 
+original = pyfftw.n_byte_align_empty(1024,16, dtype=complex128)
+output = pyfftw.n_byte_align_empty(1024,16, dtype=complex128)
+
+fft_forward = pyfftw.FFTW(original, output, flags=('FFTW_PATIENT',))
+
 values = []
-for i in range(500): #this is the loop to parallelize
+for i in range(5000): #this is the loop to parallelize
     print i
     total = bopt.plane_wave_beam(x,y,0,amp,k1) + exp(1j*1)*bopt.plane_wave_beam(x,y,0,0.001*amp,k2) 
 
     intensity = total * total.conjugate() #+ darkcts*(random.random([max(shape(x)),max(shape(y))]) + 1j*random.random([max(shape(x)),max(shape(y))])) # add dark noise and QE
-    K = fftshift(fft(intensity[:,200])) # complex intensity after FFT2
+    original[:] = intensity[:,200]
+    fft_forward.execute()
+    K = fftshift(output) # complex intensity after FFT2
     values.append(K[643]/1e5)
 
 # pixel of interest in FFT is 643 (this is 131 pixels away from the center @ 512)

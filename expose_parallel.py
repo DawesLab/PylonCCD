@@ -20,7 +20,7 @@ print("Submitting tasks...")
 
 t1 = time.time()
 async_results = []
-for i in range(40):
+for i in range(400):
 	ar = view.apply_async(exposure)
 	async_results.append(ar)
 
@@ -29,7 +29,7 @@ print("Submitted tasks: ", len(async_results))
 
 # Block until all tasks are completed.
 
-#c.wait(async_results)
+c.wait(async_results)
 t2 = time.time()
 t = t2-t1
 

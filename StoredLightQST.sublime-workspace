@@ -11,8 +11,25 @@
 			"file": "ExcelonCamera.py",
 			"settings":
 			{
-				"buffer_size": 1725,
+				"buffer_size": 1728,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "exposure.py",
+			"settings":
+			{
+				"buffer_size": 1707,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "expose_parallel.py",
+			"settings":
+			{
+				"buffer_size": 1069,
+				"line_ending": "Unix",
+				"name": "from __future__ import print_function"
 			}
 		},
 		{
@@ -84,6 +101,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"bopt",
+			"# <markdowncell>",
+			"# <codecell>"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -101,7 +121,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -109,15 +129,15 @@
 					"file": "ExcelonCamera.py",
 					"settings":
 					{
-						"buffer_size": 1725,
+						"buffer_size": 1728,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1089,
-								1089
+								1727,
+								1663
 							]
 						],
 						"settings":
@@ -132,6 +152,60 @@
 				},
 				{
 					"buffer": 1,
+					"file": "exposure.py",
+					"settings":
+					{
+						"buffer_size": 1707,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								495,
+								495
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "expose_parallel.py",
+					"settings":
+					{
+						"buffer_size": 1069,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								729,
+								729
+							]
+						],
+						"settings":
+						{
+							"auto_name": "from __future__ import print_function",
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 377.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "BeamOptics.py",
 					"settings":
 					{
@@ -159,7 +233,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "Qfunction.py",
 					"settings":
 					{
@@ -170,8 +244,8 @@
 						"selection":
 						[
 							[
-								869,
-								869
+								867,
+								867
 							]
 						],
 						"settings":

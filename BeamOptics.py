@@ -39,6 +39,7 @@ def plane_wave_beam (x, y, z, A, k):
     #noisephase = exp(2*pi*1j*dphase*(random.random() - 0.5))
     noise = random.normal(0,0.5) * exp(1j*2*pi*random.random())
     return (A + noise) * exp(I*k[0]*x + I*k[1]*y + I*k[2]*z)
+    #return A * exp(I*k[0]*x + I*k[1]*y + I*k[2]*z)
     # this is more accurate, the best way to model is to let the amplitude have noise.
 
 
