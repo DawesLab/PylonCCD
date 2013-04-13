@@ -1,4 +1,6 @@
-# we're going to model the data coming from an Excelon Camera at 1340x400 pixels. This is to get familiar with data from the quantum array detection experiments.
+# we're going to model the data coming from an 
+# Excelon Camera at 1340x400 pixels. This is to get familiar 
+# with data from the quantum array detection experiments.
 # coding=utf-8
 from pylab import *
 from scipy import *
@@ -29,22 +31,28 @@ amp = 380
 darkcts = 0.0 # no idea what is reasonable here, just tinkering
 # the ccd specifies 2-3 electrons per pixel per hour
 
-# seems best way to model (classical) detector is with partial loss (2%) and added noise (dark counts)
+# seems best way to model (classical) detector is with partial loss (2%) 
+# and added noise (dark counts)
 
 values = []
-for i in range(500): #this is the loop to parallelize
+for i in range(5000): #this is the loop to parallelize
     print i
-    total = bopt.plane_wave_beam(x,y,0,amp,k1) + exp(1j*1)*bopt.plane_wave_beam(x,y,0,0.001*amp,k2) 
+    total = bopt.plane_wave_beam(x,y,0,amp,k1) + 
+            exp(1j*1)*bopt.plane_wave_beam(x,y,0,0.001*amp,k2) 
 
-    intensity = total * total.conjugate() #+ darkcts*(random.random([max(shape(x)),max(shape(y))]) + 1j*random.random([max(shape(x)),max(shape(y))])) # add dark noise and QE
+    intensity = total * total.conjugate() # + 
+                #darkcts*(random.random([max(shape(x)),max(shape(y))]) + 
+                #1j*random.random([max(shape(x)),max(shape(y))])) 
+                # add dark noise and QE
     K = fftshift(fft(intensity[:,200])) # complex intensity after FFT2
     values.append(K[643]/1e5)
 
-# pixel of interest in FFT is 643 (this is 131 pixels away from the center @ 512)
-# 131 pixels corresponds to the off-axis component of the wave:
+# pixel of interest in FFT is 643 (this is 131 pixels away from the 
+# center @ 512) 131 pixels corresponds to the off-axis component of 
+# the wave:
 # ∆K is 2π / (20e-6 * 1024) = 306.796 rad/m
-# 306.796 * 131 is 40190 rad/m which is k * sin(0.005) where k = 2π/780e-9 = 8055365 rad/m
-# TADA!
+# 306.796 * 131 is 40190 rad/m which is k * sin(0.005) 
+# where k = 2π/780e-9 = 8055365 rad/m TADA!
 
 qfuncoutput = qf.qfuncimage(real(values),imag(values),30)
 show()
