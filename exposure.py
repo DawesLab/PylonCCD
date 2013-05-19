@@ -1,7 +1,8 @@
+# coding=utf-8
+
 # we're going to model the data coming from an Excelon Camera 
 # at 1340x400 pixels. This is to get familiar with data from 
 # the quantum array detection experiments.
-# coding=utf-8
 # from IPython.parallel import require
 # import BeamOptics as bopt
 # @require(bopt)
@@ -14,7 +15,7 @@ def exposure(NX = 1024,
 	from scipy import pi, sin, cos, exp, conjugate, ogrid
 	from numpy import random, real, imag, array
 	from numpy.fft import fft, fftshift
-	import BeamOptics
+	from BeamOptics import plane_wave_beam
 
 	px, py = ogrid[0:NX,0:NY] #pixel index
 	center = [NX/2, NY/2] # center of the CCD sensor
@@ -35,8 +36,8 @@ def exposure(NX = 1024,
 	# seems best way to model detector is with partial loss (2%) and 
 	# added noise (dark counts)
 
-	total = BeamOptics.plane_wave_beam(x,y,0,amp,k1) + 
-	        exp(1j)*BeamOptics.plane_wave_beam(x,y,0,0.001*amp,k2) 
+	total = plane_wave_beam(x,y,0,amp,k1) + \
+	        exp(1j)*plane_wave_beam(x,y,0,0.001*amp,k2) 
 
 	intensity = total * total.conjugate() #+ 
 	            #darkcts*(random.random([max(shape(x)),max(shape(y))]) + 
@@ -51,3 +52,5 @@ def exposure(NX = 1024,
 # 306.796 * 131 is 40190 rad/m which is k * sin(0.005) 
 # where k = 2π/780e-9 = 8055365 rad/m TADA!
 
+if __name__ == '__main__':
+	print exposure()
