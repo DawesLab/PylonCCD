@@ -14,7 +14,7 @@ To use these, execute exposure.py many times and plot the data using one of the 
 
 A barebones example is:
 
-
+```python
 from exposure import exposure
 from Qfunction import qfuncimage
 from numpy import real,imag
@@ -26,3 +26,4 @@ for i in range(10):
   
 qfuncimage(real(output),imag(output))
 show()
+```
