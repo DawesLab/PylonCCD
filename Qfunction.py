@@ -24,11 +24,15 @@ def qfunc3d(x,y,bins=4):
 
 	return fig
 
-def qfuncimage(x,y,bins=10):
+def qfuncimage(array,bins=10):
+	x = np.real(array)
+	y = np.imag(array)
 	H, xe, ye = np.histogram2d(x,y,bins)
 	extent = [xe[0], xe[-1], ye[-1], ye[0]]
-	print extent
+	#print extent
 	fig = plt.figure()
+	ax = plt.gca()
+	ax.set_aspect('equal')
 	plt.imshow(H, extent=extent, interpolation='nearest', cmap='gray')
 	plt.colorbar()
 	return fig
