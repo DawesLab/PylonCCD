@@ -44,4 +44,5 @@ def qfuncimage(array,bins=10,dolog=False):
     plt.xlabel(r'Real($ \alpha $)')
     plt.ylabel(r'Imag($ \alpha $)')
     plt.title("Q function")
+
     return fig
