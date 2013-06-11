@@ -29,7 +29,7 @@ def qfuncimage(array,bins=10,dolog=False):
     y = np.real(array) # y is second dim. so imshow has it horizontal
 
     H, xe, ye = np.histogram2d(x,y,bins)
-    extent = [ye[0], ye[-1], xe[-1], xe[0]] # flipped axes since original
+    extent = [ye[0], ye[-1], xe[0], xe[-1]] # flipped axes since original
     #print extent
     fig = plt.figure()
     ax = plt.gca()
@@ -40,7 +40,7 @@ def qfuncimage(array,bins=10,dolog=False):
     plt.imshow(H, origin="lower", extent=extent, interpolation='nearest', cmap='gray')
     plt.colorbar()
     plt.xticks((ye[-1],0,ye[0]))
-    plt.yticks((xe[-1],0,xe[0]))
+    plt.yticks((xe[0],0,xe[-1]))
     plt.xlabel(r'Real($ \alpha $)')
     plt.ylabel(r'Imag($ \alpha $)')
     plt.title("Q function")
