@@ -29,9 +29,7 @@ def qfuncimage(array,bins=10,dolog=False):
     y = np.imag(array)
 
     H, xe, ye = np.histogram2d(x,y,bins)
-    extent = [xe[0], xe[-1], ye[-1], ye[0]]
-    #TODO resolve this difference:
-    altextent = [ye[0], ye[-1], xe[-1], xe[0]] # flipped axes?
+    extent = [ye[0], ye[-1], xe[-1], xe[0]] # flipped axes since original
     #print extent
     fig = plt.figure()
     ax = plt.gca()
