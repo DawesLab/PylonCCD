@@ -39,5 +39,9 @@ def qfuncimage(array,bins=10,dolog=False):
 
     plt.imshow(H, origin="lower", extent=extent, interpolation='nearest', cmap='gray')
     plt.colorbar()
-    plt.xticks(xe[-1],xe[0])
+    plt.xticks((ye[-1],0,ye[0]))
+    plt.yticks((xe[-1],0,xe[0]))
+    plt.xlabel(r'Real($ \alpha $)')
+    plt.ylabel(r'Imag($ \alpha $)')
+    plt.title("Q function")
     return fig
