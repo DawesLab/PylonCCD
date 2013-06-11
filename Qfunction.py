@@ -25,8 +25,8 @@ def qfunc3d(x,y,bins=4):
     return fig
 
 def qfuncimage(array,bins=10,dolog=False):
-    x = np.real(array)
-    y = np.imag(array)
+    x = np.imag(array) # x is first dim. so imshow has it vertical
+    y = np.real(array) # y is second dim. so imshow has it horizontal
 
     H, xe, ye = np.histogram2d(x,y,bins)
     extent = [ye[0], ye[-1], xe[-1], xe[0]] # flipped axes since original
