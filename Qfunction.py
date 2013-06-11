@@ -34,6 +34,7 @@ def qfuncimage(array,bins=10,dolog=False):
     fig = plt.figure()
     ax = plt.gca()
     ax.set_aspect('equal')
+    # dolog takes the log of the histogram to show subtle values
     if dolog:
         H = np.log(H+0.1)
 
