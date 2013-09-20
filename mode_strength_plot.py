@@ -31,7 +31,13 @@ def findPeakMode(fftarray):
 	return 0
 	
 	
-def openyml(filename): #opens raw yml file and returns matrix with fft values
-	with open(filename, 'r') as file:
-		yml_data = cv2.cv.Load(file)
-		print type(yml_data)
+def openyml(filename, property = 'image'): #opens raw yml file and returns matrix with fft values for specified region
+	if property == 'image':
+		region = 'image'
+	if property == 'real':
+		region = 'fft-real'
+	if property == 'imag':
+		region = 'fft-imag'
+	else:
+		region = property
+	return cv2.cv.Load(filename, name = region)
