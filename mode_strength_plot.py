@@ -10,7 +10,7 @@
 import csv
 import numpy as np
 import Qfunction as Qfunc
-import yaml
+import cv2
 
 #----------------------------------------------------------------------#
 ## Returns a numpy array of the complex numbers associated with the   ##
@@ -32,6 +32,6 @@ def findPeakMode(fftarray):
 	
 	
 def openyml(filename): #opens raw yml file and returns matrix with fft values
-	with codecs.open(filename, 'r', encoding='utf8') as file:
-		yml_dict = yaml.safe_load(file)
-		print type(yml_dict)
+	with open(filename, 'r') as file:
+		yml_data = cv2.cv.Load(file)
+		print type(yml_data)
