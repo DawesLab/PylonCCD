@@ -12,32 +12,52 @@ import numpy as np
 import Qfunction as Qfunc
 import cv2
 
-#----------------------------------------------------------------------#
+##--------------------------------------------------------------------##
 ## Returns a numpy array of the complex numbers associated with the   ##
 ## selected mode. In practice, return will be appended to an external ##
 ## array with mode values from other .csv files                       ##
-#----------------------------------------------------------------------#
-def complexcsv(filename, mode = 0, binsize = 10): #import *.csv into python memory
+##--------------------------------------------------------------------##
+
+#import *.csv into python memory
+def complexcsv(filename, mode = 0, binsize = 10):
 	temp = np.genfromtxt(filename, skip_header = 1, delimiter = ',').astype(np.complex)
 	return temp[...,mode] + temp[...,mode+1]*1j
+
 	
-def plotMode(mode = 0):
-	binsize = 10
-	qfig = Qfunc.qfuncimage(fftarray[2*mode:2*mode+2], binsize)
+#takes mode-filtered complex fft data (e.g. from openyml()) and returns a histogram
+def plotMode(modearray, binsize = 10):
+	qfig = Qfunc.qfuncimage(modearray[2*mode:2*mode+2], binsize)
 	return qfig
 
-def findPeakMode(fftarray):
+	
+#takes an unfiltered fft array and returns the peak indices (modes)
+def findPeakModes(fftarray):
 	##Possibly incorporate peak_finder here
 	return 0
 	
+
+#opens raw yml file and returns matrix with fft values for specified region
+def openyml(filename, mode = -1):
+	if mode == -1: #for mode set to -1, return image data in a numpy array instead of fft data
+		imagedata = np.array([])
+		imagedata = cv2.cv.Load(filename, 'image')
+		return imagedata
 	
-def openyml(filename, property = 'image'): #opens raw yml file and returns matrix with fft values for specified region
-	if property == 'image':
-		region = 'image'
-	if property == 'real':
-		region = 'fft-real'
-	if property == 'imag':
-		region = 'fft-imag'
-	else:
-		region = property
-	return cv2.cv.Load(filename, name = region)
+	else: #for a valid mode number, find the matching column and return subsequent values
+		realfft = cv2.cv.Load(filename, 'real-fft')
+		imagfft = cv2.cv.Load(filename, 'imag-fft')
+		modeindex = mode
+		
+#--------------------
+#the code here is for if only select modes were recorded in the array and thus the mode index and mode are not the same
+		#modeindex = np.argwhere(realfft[0, :] == mode)[0,0] #finds the array index of the desired mode in the imported file
+		#if modeindex != np.argwhere(imagfft[0, :] == mode)[0,0] #should be same as modeindexreal, but you never know....
+		#	return -1 #returns error for modeindex mismatch
+#--------------------
+		
+		fftdata = np.array([])
+		datashape = np.shape(realfft)
+		for i in range(1, datashape[0]): #places real\imag pairs in successive rows
+			fftdata = np.append(fftdata, [realfft[i, modeindex], imagfft[i, modeindex]])
+			
+		return fftdata
