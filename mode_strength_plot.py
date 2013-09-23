@@ -44,8 +44,8 @@ def openyml(filename, mode = -1):
 		return imagedata
 	
 	else: #for a valid mode number, find the matching column and return subsequent values
-		realfft = cv2.cv.Load(filename, 'real-fft')
-		imagfft = cv2.cv.Load(filename, 'imag-fft')
+		realfft = cv2.cv.Load(filename, name = 'fft-real')
+		imagfft = cv2.cv.Load(filename, name = 'fft-imag')
 		modeindex = mode
 		
 #--------------------
@@ -55,9 +55,9 @@ def openyml(filename, mode = -1):
 		#	return -1 #returns error for modeindex mismatch
 #--------------------
 		
-		fftdata = np.array([])
+		fftdata = np.array([[modeindex, modeindex]])
 		datashape = np.shape(realfft)
-		for i in range(1, datashape[0]): #places real\imag pairs in successive rows
-			fftdata = np.append(fftdata, [realfft[i, modeindex], imagfft[i, modeindex]])
+		for i in range(0, datashape[0]): #places real/imag pairs in successive rows
+			fftdata = np.append(fftdata, [[realfft[i, modeindex], imagfft[i, modeindex]]], axis = 0)
 			
 		return fftdata
