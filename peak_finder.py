@@ -71,12 +71,12 @@ def _peakdetect_parabole_fitter(raw_peaks, x_axis, y_axis, points):
     return fitted_peaks
     
     
-def peakdetect(y_axis, x_axis = None, lookahead = 300, delta=0):
+def peakdetect(y_axis, x_axis = None, lookahead = 200, delta=0):
     """
     Converted from/based on a MATLAB script at: 
     http://billauer.co.il/peakdet.html
     
-    function for detecting local maximas and minmias in a signal.
+    function for detecting local maximas and minimas in a signal.
     Discovers peaks by searching for values which are surrounded by lower
     or larger values for maximas and minimas respectively
     
@@ -478,7 +478,7 @@ def peakdetect_sine(y_axis, x_axis, points = 9, lock_frequency = False):
     
 def peakdetect_sine_locked(y_axis, x_axis, points = 9):
     """
-    Convinience function for calling the 'peakdetect_sine' function with
+    Convenience function for calling the 'peakdetect_sine' function with
     the lock_frequency argument as True.
     
     keyword arguments:

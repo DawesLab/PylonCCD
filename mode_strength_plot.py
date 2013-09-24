@@ -11,6 +11,7 @@ import csv
 import numpy as np
 import Qfunction as Qfunc
 import cv2
+import peak_finder as pf
 
 ##--------------------------------------------------------------------##
 ## Returns a numpy array of the complex numbers associated with the   ##
@@ -31,9 +32,17 @@ def plotMode(modearray, binsize = 10):
 
 	
 #takes an unfiltered fft array and returns the peak indices (modes)
-def findPeakModes(fftarray):
-	##Possibly incorporate peak_finder here
-	return 0
+def findPeakModes(fftarray, smoothing = 7, finderwin = 20):
+	absdata = absfft(fftarray)
+	datashape = np.shape(absdata)
+	smoothing = 2*smoothing + 1 #smoothing must be an odd number
+
+	temparray = np.average(absdata, axis = 0)
+	print np.shape(temparray)
+	smoothdata = pf._smooth(temparray, window_len = smoothing)
+
+
+	return pf.peakdetect(smoothdata, lookahead = finderwin)[0]
 	
 
 #opens raw yml file and returns matrix with fft values for specified region
@@ -50,14 +59,25 @@ def openyml(filename, mode = -1):
 		
 #--------------------
 #the code here is for if only select modes were recorded in the array and thus the mode index and mode are not the same
-		#modeindex = np.argwhere(realfft[0, :] == mode)[0,0] #finds the array index of the desired mode in the imported file
-		#if modeindex != np.argwhere(imagfft[0, :] == mode)[0,0] #should be same as modeindexreal, but you never know....
-		#	return -1 #returns error for modeindex mismatch
+#		modeindex = np.argwhere(realfft[0, :] == mode)[0,0] #finds the array index of the desired mode in the imported file
+#		if modeindex != np.argwhere(imagfft[0, :] == mode)[0,0] #should be same as modeindexreal, but you never know....
+#			return -1 #returns error for modeindex mismatch
 #--------------------
 		
-		fftdata = np.array([[mode, mode]])
+		#initialize and set first row of output array
+		fftdata = np.array([[realfft[0, modeindex],imagfft[0, modeindex]]])
 		datashape = np.shape(realfft)
-		for i in range(0, datashape[0]): #places real/imag pairs in successive rows
+		for i in range(1, datashape[0]): #places real/imag pairs in successive rows
 			fftdata = np.append(fftdata, [[realfft[i, modeindex], imagfft[i, modeindex]]], axis = 0)
 			
 		return fftdata
+
+#creates an array with absolute fft values from a complex array of any even-width shape
+def absfft(fftarray):
+	fftshape = np.shape(fftarray)
+	output = np.zeros([fftshape[0], fftshape[1]/2]) #initialize array of proper size
+	for col in range (0, fftshape[1]/2):
+		for row in range (0, fftshape[0]):
+			absval = np.sqrt(fftarray[row, 2*col]**2 + fftarray[row, 2*col+1]**2) #find abs of 
+			output[row, col] = absval
+	return output
