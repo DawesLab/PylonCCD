@@ -55,7 +55,7 @@ def openyml(filename, mode = -1):
 		#	return -1 #returns error for modeindex mismatch
 #--------------------
 		
-		fftdata = np.array([[modeindex, modeindex]])
+		fftdata = np.array([[mode, mode]])
 		datashape = np.shape(realfft)
 		for i in range(0, datashape[0]): #places real/imag pairs in successive rows
 			fftdata = np.append(fftdata, [[realfft[i, modeindex], imagfft[i, modeindex]]], axis = 0)
