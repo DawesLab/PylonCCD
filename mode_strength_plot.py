@@ -49,7 +49,7 @@ def findPeakModes(fftarray, smoothing = 7, finderwin = 20):
 def openyml(filename, mode = -1):
 	if mode == -1: #for mode set to -1, return image data in a numpy array instead of fft data
 		imagedata = np.array([])
-		imagedata = cv2.cv.Load(filename, 'image')
+		imagedata = cv2.cv.Load(filename, name = 'image')
 		return imagedata
 	
 	else: #for a valid mode number, find the matching column and return subsequent values
