@@ -43,7 +43,9 @@ def exposure(NX = 1024,
 	            #darkcts*(random.random([max(shape(x)),max(shape(y))]) + 
 	            #1j*random.random([max(shape(x)),max(shape(y))])) 
 	            #add dark noise and QE
+	# print intensity[:,200].sum()
 	K = fftshift(fft(intensity[:,200])) # complex intensity after FFT2
+	# print K[512] used to verify that the sum is equal to DC
 	return K[643]
 
 # pixel of interest in FFT is 643 (this is 131 pixels away from 
