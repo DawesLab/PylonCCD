@@ -1,0 +1,6 @@
+# IPython log file
+
+get_ipython().magic(u'logstart')
+import cv2
+get_ipython().set_next_input(u'data = cv2.imread');get_ipython().magic(u'pinfo cv2.imread')
+exit()
