@@ -1,14 +1,9 @@
 # coding: utf-8
-# we're going to model the data coming from an Excelon Camera
-# at 1340x400 pixels. This is to get familiar with data from
-# the quantum array detection experiments.
-# from IPython.parallel import require
-# import BeamOptics as bopt
-# @require(bopt)
+# modified exposure.py in order to find best FFT length for narrow peaks
 
 
-def exposure(NX=1300, NY=400, pitch=20e-6,
-             wavelength=780e-9, theta=0.005, amp=100, phase=0, trim=5):
+def manyffts(NX=1300, NY=400, pitch=20e-6,
+             wavelength=780e-9, theta=0.005, amp=100, phase=0):
 
     from scipy import pi, sin, cos, exp, conjugate, ogrid
     from numpy import random, real, imag, array, absolute, log
@@ -38,19 +33,14 @@ def exposure(NX=1300, NY=400, pitch=20e-6,
     total = plane_wave_beam(x, y, 0, amp, k1) + \
         exp(1j*phase)*plane_wave_beam(x, y, 0, 1e-12*amp, k2)
 
-    noise = random.random(total.shape)
+    intensity = total * total.conjugate()
 
-    intensity = total * total.conjugate() + 1e-9*noise
-                #+
-                #darkcts*(random.random([max(shape(x)),max(shape(y))]) +
-                #1j*random.random([max(shape(x)),max(shape(y))]))
-                #add dark noise and QE
-    # trim the last few elements before taking the FFT:
-    print log(intensity[:-trim, 200].sum())
-    # complex intensity after FFT2, trim last few elements:
-    K = fftshift(fft(intensity[:-trim, 200]))
-    # print K[512] used to verify that the sum is equal to DC
-    plt.plot(10*log(absolute(K)))  # power spectrum
+    for trim in [1, 2, 3, 4, 5, 6, 7, 8]:
+        K = fft(intensity[:-trim, 200])
+        plt.plot(10*log(absolute(fftshift(K))), label=trim)  # power spectrum
+        # plt.plot(absolute(K[166-10:166+10]), label=trim)  # power spectrum
+
+    plt.legend(loc="upper left")
     plt.show()
     return K
 
@@ -61,4 +51,4 @@ def exposure(NX=1300, NY=400, pitch=20e-6,
 # where k = 2π/780e-9 = 8055365 rad/m TADA!
 
 if __name__ == '__main__':
-    print exposure()
+    print manyffts()
