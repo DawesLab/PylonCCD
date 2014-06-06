@@ -3,22 +3,22 @@ I = 1.0j
 # A package for beam optics in python
 
 
-def spot_size(z, z0, w0):
-    """Calculate spot size at z, given z0, and w0"""
-    return w0 * sqrt(1 + (z/z0)*(z/z0))
+def spot_size(z, zR, w0):
+    """Calculate spot size at z, given zR, and w0"""
+    return w0 * sqrt(1 + (z/zR)*(z/zR))
 
 
-def radius_curvature(z, z0):
+def radius_curvature(z, zR):
     """calculate R(z)"""
     # This could be smarter, just adding epsilon to avoid nan's
     if (z == 0):
         z += 1e-31
-    return z * (1 + (z0/z)*(z0/z))
+    return z * (1 + (zR/z)*(zR/z))
 
 
-def guoy_phase(z, z0):
-    """really just atan(z/z0"""
-    return arctan(z/z0)
+def guoy_phase(z, zR):
+    """really just atan(z/zR)"""
+    return arctan(z/zR)
 
 
 def rayleigh_range(w0, wavelambda):
@@ -26,16 +26,20 @@ def rayleigh_range(w0, wavelambda):
     return pi*w0*w0/wavelambda
 
 
-def gaussian_beam(x, y, z, E0, z0, w0, k):
+def gaussian_beam(x, y, z, E0, zR, w0, k):
     """full gaussian beam at x, y, z given the beam parameters\n
+    E0 is the electric field amplitude
+    zR is the raleigh range
+    w0 is the beam waist (1/e field radius and 1/e^2 intensity radius)
     k is a tuple of [kx,ky,kz]"""
+
     r = sqrt(x*x + y*y)
-    w = spot_size(z, z0, w0)
-    R = radius_curvature(z, z0)
-    eta = guoy_phase(z, z0)
+    w = spot_size(z, zR, w0)
+    R = radius_curvature(z, zR)
+    eta = guoy_phase(z, zR)
     return E0 * w0/w * exp(- r*r/(w*w)) *\
-        exp(-I*k[2]*z - I*k[2]*r*r/(2*R) + I*eta)*exp(I*k[0]*x + I*k[1]*y) +\
-        sqrt(E0)*random.random([max(shape(x)), max(shape(y))])
+        exp(-I*k[2]*z - I*k[2]*r*r/(2*R) + I*eta)*exp(I*k[0]*x + I*k[1]*y) #\
+        #+ sqrt(E0)*random.random([max(shape(x)), max(shape(y))])
     # The exp(ikz) term in this definition causes extra phase accumulation
     # compared to the BPM. I need to sort this out for sure.
     # The following agrees with BPM:
