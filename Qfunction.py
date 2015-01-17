@@ -24,9 +24,9 @@ def qfunc3d(x,y,bins=4):
 
     return fig
 
-def qfuncimage(array,bins=10,dolog=False):
-    x = np.imag(array) # x is first dim. so imshow has it vertical
-    y = np.real(array) # y is second dim. so imshow has it horizontal
+def qfuncimage(array,bins=10,dolog=False,scaling=1.0):
+    x = scaling*np.imag(array) # x is first dim. so imshow has it vertical
+    y = scaling*np.real(array) # y is second dim. so imshow has it horizontal
 
     H, xe, ye = np.histogram2d(x,y,bins)
     extent = [ye[0], ye[-1], xe[0], xe[-1]] # flipped axes since original
@@ -38,7 +38,7 @@ def qfuncimage(array,bins=10,dolog=False):
     if dolog:
         H = np.log(H+0.1)
 
-    plt.imshow(H, origin="lower", extent=extent, interpolation='nearest', cmap='gray')
+    plt.imshow(H, origin="lower", extent=extent, interpolation='nearest', cmap='jet')
     plt.colorbar()
     plt.xticks((ye[-1],0,ye[0]))
     plt.yticks((xe[0],0,xe[-1]))
