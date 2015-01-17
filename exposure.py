@@ -7,14 +7,16 @@
 # @require(bopt)
 
 
-def exposure(NX=1340, NY=400, pitch=20e-6,
-             wavelength=780e-9, theta=0.005, amp=100, phase=0, trim=6):
+def exposure(NX=600, NY=400, pitch=20e-6,
+             wavelength=780e-9, theta=0.005, amp=100, phase=0, trim=1):
 
     from scipy import pi, sin, cos, exp, conjugate, ogrid
-    from numpy import random, real, imag, array, absolute, log, log10
+    from numpy import random, real, imag, array, absolute, log, log10, arange
     from numpy.fft import fft, fftshift
-    from BeamOptics import plane_wave_beam
+    from BeamOptics import plane_wave_beam, gaussian_beam
     import matplotlib.pyplot as plt
+    import matplotlib as mpl
+    import matplotlib.backends.backend_pdf
 
     px, py = ogrid[0:NX, 0:NY]  # pixel index
     # center = [NX/2, NY/2]  # center of the CCD sensor
@@ -35,18 +37,21 @@ def exposure(NX=1340, NY=400, pitch=20e-6,
     # seems best way to model detector is with partial loss (2%) and
     # added noise (dark counts)
 
-    total = plane_wave_beam(x, y, 0, amp, k1) + \
-        exp(1j*phase)*plane_wave_beam(x, y, 0, 1e-5*amp, k2)
+    #total = plane_wave_beam(x, y, 0, amp, k1) + \
+        #exp(1j*phase)*plane_wave_beam(x, y, 0, 1e-5*amp, k2)
+    #total = plane_wave_beam(x, y, 0, amp, k1) + \
+        #exp(1j*phase)*gaussian_beam(x, y, 0, 1e-2*amp, -1.0, xmin/20.0, k2)
+    total = gaussian_beam(x, y, 0.99, amp, 0.117e-3, 5.397e-6, k1) + \
+        exp(1j*phase)*gaussian_beam(x, y, 1.07, 1e-1*amp, 0.209e-3, 7.197e-6, k2)
 
     noise = random.random(total.shape)  # add some detector noise?
     # really not sure how best to add noise, but this gives the FFT
     # a realistic look.
-
-    intensity = total * total.conjugate() + 2*noise # 0-2 counts per pixel
+    intensity = total * total.conjugate() + 0*noise  # 0-2 counts per pixel
                 #+
                 #darkcts*(random.random([max(shape(x)),max(shape(y))]) +
                 #1j*random.random([max(shape(x)),max(shape(y))]))
-                #add dark noise and 
+                #add dark noise and
 
     # Calculate the relevant pixels:
     deltaK = 2*pi/(20e-6 * (1340-trim))
@@ -60,10 +65,20 @@ def exposure(NX=1340, NY=400, pitch=20e-6,
     # print "xN: ", log10(intensity[:-trim, 200] * (1340-trim))
     # complex intensity after FFT2, trim last few elements:
     K = fftshift(fft(intensity[:-trim, 200]))
+    j = arange(len(K))-len(K)/2.0  # frequency index for plot
+
     # print K[512] used to verify that the sum is equal to DC
-    plt.plot(log10(absolute(K)))  # power spectrum
+
+    # normlzd power spectrum
+    plt.plot(j, log10(absolute(K)/absolute(K).max()),".-")
+    plt.ylabel("$\log_{10}(K)$")
+    plt.xlabel("$j$")
+    #pp = matplotlib.backends.backend_pdf.PdfPages("figure_1.pdf")
+    #pp.savefig()
+    #pp.close()
     plt.show()
-    return K
+
+    #return K
 
     # Can find relative amplitude of sideband by dividing fourier amplitude
     # F(side) / F(DC) is equal to the amplitude ratio SB/DC.
