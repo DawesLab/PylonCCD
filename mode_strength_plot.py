@@ -26,7 +26,7 @@ def complexcsv(filename, mode = 0, binsize = 10):
 
 	
 #takes mode-filtered complex fft data (e.g. from openyml()) and returns a histogram
-def plotMode(modearray, binsize = 10):
+def plotMode(modearray, mode, binsize = 10):
 	qfig = Qfunc.qfuncimage(modearray[2*mode:2*mode+2], binsize)
 	return qfig
 
